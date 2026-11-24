@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: vote
+spec:
+  replicas: 5
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: vote
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vote
+  strategy:
+    canary:
+      steps:
+      - setWeight: 20
+      - pause: {}
